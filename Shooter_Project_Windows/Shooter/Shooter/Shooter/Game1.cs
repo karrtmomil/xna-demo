@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Shooter
 {
@@ -21,6 +22,17 @@ namespace Shooter
 
         // Represents the player
         Player player;
+
+        // Keyboard states used to determine
+        KeyboardState currentKeyboardState;
+        KeyboardState previousKeyboardState;
+
+        // Gamepad tates used to determin button presses
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
+
+        // A movement speed for the player
+        float playerMoveSpeed;
 
         public Game1()
         {
@@ -39,6 +51,12 @@ namespace Shooter
             // Initialize the player class
             player = new Player();
 
+            // Set a constant player move speed
+            playerMoveSpeed = 8.0f;
+
+            // enabel the FreeDrag gesture.
+            TouchPanel.EnabledGestures = GestureType.FreeDrag;
+
             base.Initialize();
         }
 
@@ -52,8 +70,10 @@ namespace Shooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load the player resources
-            Vector2 playerPosition = new 
-                Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+
+            Vector2 playerPosition = new
+                Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2 - Content.Load<Texture2D>("player").Height/2);
+
             player.Initialze(Content.Load<Texture2D>("player"), playerPosition);
         }
 
@@ -77,9 +97,51 @@ namespace Shooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            // Save the previous state of the keyboard and game pad so we can determinesinglekey/button presses
+            previousGamePadState = currentGamePadState;
+            previousKeyboardState = currentKeyboardState;
+
+            // Read the current state of the keyboard and gamepad and store it
+            currentKeyboardState = Keyboard.GetState();
+            currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
+            // Upadate the player
+            UpdatePlayer(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void UpdatePlayer(GameTime gameTime)
+        {
+            // Get Thumbstick Controls
+            player.Position.X += currentGamePadState.ThumbSticks.Left.X * playerMoveSpeed;
+            player.Position.Y -= currentGamePadState.ThumbSticks.Left.Y * playerMoveSpeed;
+
+            // Use the Keyboard / Dpad
+            if (currentKeyboardState.IsKeyDown(Keys.Left) ||
+                    currentGamePadState.DPad.Left == ButtonState.Pressed)
+            {
+                player.Position.X -= playerMoveSpeed;
+            }
+            if (currentKeyboardState.IsKeyDown(Keys.Right) ||
+                    currentGamePadState.DPad.Right == ButtonState.Pressed)
+            {
+                player.Position.X += playerMoveSpeed;
+            }
+            if (currentKeyboardState.IsKeyDown(Keys.Up) ||
+                    currentGamePadState.DPad.Up == ButtonState.Pressed)
+            {
+                player.Position.Y -= playerMoveSpeed;
+            }
+            if (currentKeyboardState.IsKeyDown(Keys.Down) ||
+                    currentGamePadState.DPad.Down == ButtonState.Pressed)
+            {
+                player.Position.Y += playerMoveSpeed;
+            }
+
+            // Make sure that the player does not go out of bounds
+            player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width);
+            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height);
         }
 
         /// <summary>
