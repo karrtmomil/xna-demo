@@ -75,7 +75,7 @@ namespace Shooter
             playerAnimation.Initialize(playerTecture, Vector2.Zero, 115, 69, 8, 30, Color.White, 1f, true);
 
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
-                GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2 - Content.Load<Texture2D>("player").Height/2);
+                GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialze(playerAnimation, playerPosition);
         }
 
@@ -144,8 +144,8 @@ namespace Shooter
             }
 
             // Make sure that the player does not go out of bounds
-            player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width);
-            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height);
+            player.Position.X = MathHelper.Clamp(player.Position.X, player.Width / 2, GraphicsDevice.Viewport.Width - player.Width / 2);
+            player.Position.Y = MathHelper.Clamp(player.Position.Y, player.Height / 2, GraphicsDevice.Viewport.Height - player.Height / 2);
         }
 
         /// <summary>
