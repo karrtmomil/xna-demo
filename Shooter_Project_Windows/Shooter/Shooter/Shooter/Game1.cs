@@ -70,8 +70,8 @@ namespace Shooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load the player resources
-            Vector2 playerPosition = new 
-                Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            Vector2 playerPosition = new
+                Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2 - Content.Load<Texture2D>("player").Height/2);
             player.Initialze(Content.Load<Texture2D>("player"), playerPosition);
         }
 
