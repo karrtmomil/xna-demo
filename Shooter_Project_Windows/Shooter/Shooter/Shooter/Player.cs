@@ -47,7 +47,7 @@ namespace Shooter
             Health = 100;
         }
 
-        public void update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             PlayerAnimation.Position = Position;
             PlayerAnimation.Update(gameTime);

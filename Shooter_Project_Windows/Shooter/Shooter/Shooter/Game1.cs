@@ -70,9 +70,13 @@ namespace Shooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load the player resources
-            Vector2 playerPosition = new
-                Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2 - Content.Load<Texture2D>("player").Height/2);
-            player.Initialze(Content.Load<Texture2D>("player"), playerPosition);
+            Animation playerAnimation = new Animation();
+            Texture2D playerTecture = Content.Load<Texture2D>("shipAnimation");
+            playerAnimation.Initialize(playerTecture, Vector2.Zero, 115, 69, 8, 30, Color.White, 1f, true);
+
+            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
+                GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2 - Content.Load<Texture2D>("player").Height/2);
+            player.Initialze(playerAnimation, playerPosition);
         }
 
         /// <summary>
@@ -111,6 +115,8 @@ namespace Shooter
 
         private void UpdatePlayer(GameTime gameTime)
         {
+            player.Update(gameTime);
+
             // Get Thumbstick Controls
             player.Position.X += currentGamePadState.ThumbSticks.Left.X * playerMoveSpeed;
             player.Position.Y -= currentGamePadState.ThumbSticks.Left.Y * playerMoveSpeed;
