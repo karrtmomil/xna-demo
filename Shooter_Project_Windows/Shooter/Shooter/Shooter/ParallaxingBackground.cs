@@ -40,7 +40,31 @@ namespace Shooter
 
         public void Update()
         {
+            // Update the positions of the background
+            for (int i = 0; i < positions.Length; i++)
+            {
+                // Update the postion of the screen by adding the speed
+                positions[i].X += speed;
+                // If the speed of the background moving to the left
+                if (speed <= 0)
+                {
+                    // Check the texture is out of view then put that texture at teh end of the screen
+                    if (positions[i].X <= -texture.Width)
+                    {
+                        positions[i].X = texture.Width * (positions.Length - 1);
+                    }
+                }
 
+                // If the speed has teh background moving to the right
+                else
+                {
+                    // Check if the texture is out of view then the position it to the start of the screen
+                    if (positions[i].X >= texture.Width * (positions.Length - 1))
+                    {
+                        positions[i].X = -texture.Width;
+                    }
+                }
+            }
         }
 
         public void Draw()
