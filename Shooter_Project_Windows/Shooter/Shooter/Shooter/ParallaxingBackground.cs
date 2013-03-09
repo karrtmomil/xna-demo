@@ -67,9 +67,12 @@ namespace Shooter
             }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
-
+            for (int i = 0; i < positions.Length; i++)
+            {
+                spriteBatch.Draw(texture, positions[i], Color.White);
+            }
         }
 
 
