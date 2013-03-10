@@ -144,21 +144,25 @@ namespace Shooter
 
             // Use the Keyboard / Dpad
             if (currentKeyboardState.IsKeyDown(Keys.Left) ||
+                currentKeyboardState.IsKeyDown(Keys.A) ||
                     currentGamePadState.DPad.Left == ButtonState.Pressed)
             {
                 player.Position.X -= playerMoveSpeed;
             }
             if (currentKeyboardState.IsKeyDown(Keys.Right) ||
+                currentKeyboardState.IsKeyDown(Keys.D) ||
                     currentGamePadState.DPad.Right == ButtonState.Pressed)
             {
                 player.Position.X += playerMoveSpeed;
             }
             if (currentKeyboardState.IsKeyDown(Keys.Up) ||
+                currentKeyboardState.IsKeyDown(Keys.W) ||
                     currentGamePadState.DPad.Up == ButtonState.Pressed)
             {
                 player.Position.Y -= playerMoveSpeed;
             }
             if (currentKeyboardState.IsKeyDown(Keys.Down) ||
+                currentKeyboardState.IsKeyDown(Keys.S) ||
                     currentGamePadState.DPad.Down == ButtonState.Pressed)
             {
                 player.Position.Y += playerMoveSpeed;
