@@ -38,8 +38,30 @@ namespace Shooter
 
         float enemyMoveSpeed;
 
-        public void Initialize()
+        public void Initialize(Animation animation, Vector2 position)
         {
+            // Load the enemy ship texture
+            EnemyAnimation = animation;
+
+            // Set the position of the enemy
+            Position = position;
+
+            // We initialize the enemy to be active so it will be update in the game
+            Active = true;
+
+
+            // Set the health of the enemy
+            Health = 10;
+
+            // Set the amount of damage the enemy can do
+            Damage = 10;
+
+            // Set how fast the enemy moves
+            enemyMoveSpeed = 6f;
+
+
+            // Set the score value of the enemy
+            Value = 100;
         }
 
         public void Update()
